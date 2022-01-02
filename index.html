@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 140px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 150%;
+            left: 50%;
+            margin-left: -75px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body style="background-color: rgb(152, 152, 152);">
+    <section class="hero is-danger block">
+        <div class="hero-body">
+            <p class="title">
+                Get YouTube Thumbnail from URL
+            </p>
+            <p class="subtitle">
+                Made with Bulma + JS
+            </p>
+        </div>
+    </section>
+
+    <div class="container is-max-widescreen">
+
+        <div class="tile is-ancestor block ">
+            <div class="tile is-vertical is-8 ">
+
+                <div class="tile is-parent ">
+
+                    <article class="tile is-child notification is-danger is-light ">
+
+                        <p class="title is-4">Input</p>
+
+                        <div class="field is-grouped block">
+                            <p class="control is-expanded block">
+                                <input class="input" type="text" placeholder="YouTube URL" id="yt-url">
+                            </p>
+                            <p class="control">
+                                <a class="button is-info block" onclick="submitURL()">
+                                    Submit
+                                </a>
+                            </p>
+                        </div>
+
+                        <script>
+
+                            function submitURL() {
+                                url = document.getElementById("yt-url").value
+                                console.log(url)
+
+
+                                if (url.includes('youtube.com') === true) {
+                                    optionOne(url)
+
+                                } else if (url.includes('youtu.be') === true) {
+                                    optionTwo(url)
+
+                                } else {
+                                    console.log(`Error`)
+
+                                }
+
+
+
+                            }
+
+                            async function optionOne(url) {
+
+                                if (url.includes('embed')) {
+
+                                    let testArr2 = url.split('embed/');
+                                    var items = testArr2[1].split('?')
+
+                                    var maxRes = `https://i3.ytimg.com/vi/${items[0]}/maxresdefault.jpg`
+                                    var hqRes = `https://i3.ytimg.com/vi/${items[0]}/hqdefault.jpg`
+
+                                    output(hqRes, maxRes)
+
+                                } else {
+
+                                    let testArr = url.split('watch?v=');
+                                    var item = testArr[1].split('?')
+
+                                    var maxResOne = `https://i3.ytimg.com/vi/${item[0]}/maxresdefault.jpg`
+                                    var hqResTwo = `https://i3.ytimg.com/vi/${item[0]}/hqdefault.jpg`
+
+                                    output(hqResTwo, maxResOne)
+
+                                }
+
+                            }
+
+                            async function optionTwo(url) {
+
+                                let testArr = url.split('youtu.be/');
+                                var items = testArr[1].split('?')
+
+                                var maxRes = `https://i3.ytimg.com/vi/${items[0]}/maxresdefault.jpg`
+                                var hqRes = `https://i3.ytimg.com/vi/${items[0]}/hqdefault.jpg`
+
+                                output(hqRes, maxRes)
+
+                            }
+
+                            async function output(hqRes, maxRes) {
+
+                                highQualityOutput = document.getElementById("hqRes")
+                                maxResOutput = document.getElementById("maxRes")
+                                
+                                highQualityOutput.value = hqRes
+                                maxResOutput.value = maxRes
+
+
+
+                            }
+
+                        </script>
+                        <div style="height: 20px; width: 100px;"></div>
+
+                        <article class="message is-dark block">
+                            <div class="message-header">
+                                <p>Important</p>
+                            </div>
+                            <div class="message-body">
+                                Supported Links:<br><br>
+                                <strong>https://www.youtube.com/watch?v=</strong>luQSQuCHtcI<br>
+                                <strong>https://www.youtube.com/embed/</strong>luQSQuCHtcI<br>
+                                <strong>https://youtu.be/</strong>luQSQuCHtcI<br>
+                                <strong>https://youtu.be/</strong>luQSQuCHtcI<br>
+                                <br>
+                                Please Make Sure Your Links Are formatted as shown above
+                            </div>
+                        </article>
+
+
+
+                    </article>
+
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <article class="tile is-child notification is-warning is-light">
+
+
+                    <p class="title is-4">Output</p>
+                    <p class="title is-6">Max Res Default</p>
+
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <input class="input is-info block" type="text" value="Input a YouTube URL First"
+                                id="maxRes">
+                        </div>
+                        <div class="control">
+                            <div class="tooltip">
+                                <a id="submit1" class="button is-info block" onclick="myFunction2()"
+                                    onmouseout="outFunc2()">
+                                    <span class="tooltiptext" id="myTooltip2">Copy to clipboard</span><i
+                                        class="fal fa-clipboard"></i>
+                                </a>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <p class="title is-6">High Quality Default</p>
+
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <input class="input is-info block" type="text" value="Input a YouTube URL First"
+                                id="hqRes">
+                        </div>
+                        <div class="control">
+                            <div class="tooltip">
+                                <a id="submit2" class="button is-info block" onclick="myFunction()"
+                                    onmouseout="outFunc()">
+                                    <span class="tooltiptext" id="myTooltip">Copy to clipboard</span><i
+                                        class="fal fa-clipboard"></i>
+                                </a>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+                    <script>
+                        function myFunction() {
+                            var copyText = document.getElementById("hqRes");
+                            copyText.select();
+                            copyText.setSelectionRange(0, 99999);
+                            navigator.clipboard.writeText(copyText.value);
+
+                            var tooltip = document.getElementById("myTooltip");
+                            tooltip.innerHTML = "Copied URL";
+                        }
+
+                        function outFunc() {
+                            var tooltip = document.getElementById("myTooltip");
+                            tooltip.innerHTML = "Copy to clipboard";
+                        }
+
+                        function myFunction2() {
+                            var copyText = document.getElementById("maxRes");
+                            copyText.select();
+                            copyText.setSelectionRange(0, 99999);
+                            navigator.clipboard.writeText(copyText.value);
+
+                            var tooltip = document.getElementById("myTooltip2");
+                            tooltip.innerHTML = "Copied URL";
+                        }
+
+                        function outFunc2() {
+                            var tooltip = document.getElementById("myTooltip2");
+                            tooltip.innerHTML = "Copy to clipboard";
+
+
+                        }
+                    </script>
+                </article>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="height: 25px;"></div>
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Get YouTube Thumbnail from URL
+
+                </strong> by <a href="https://github.com/shiiiina/GetYouTubeThumbnail">Samuel Jones</a>. The source code
+                is licensed
+                <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+                is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
